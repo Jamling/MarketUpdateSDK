@@ -1,0 +1,2 @@
+# MarketUpdateSDK
+百度及360等国内市场上架必须集成的SDK
