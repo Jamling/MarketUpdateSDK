@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.4.0'
+    }
+}
+
+apply plugin: 'com.android.library'
+//apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion Integer.parseInt(SDK_COMPILE)
+    buildToolsVersion SDK_BUILD
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(SDK_MIN)
+        targetSdkVersion Integer.parseInt(SDK_TARGET)
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard_gradle.cfg"
+            multiDexEnabled false
+        }
+
+        debug {
+            minifyEnabled false
+            multiDexEnabled false
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            jniLibs.srcDirs = ['libs']
+            res.srcDirs = ['res']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+// ./gradlew clean musdk-360:build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
+publish {
+    bintrayUser = 'jamling'
+    userOrg = 'jamling'
+    groupId = 'cn.ieclipse.af'
+    artifactId = 'musdk-360'
+    publishVersion = '7.0.3'
+    desc = '360 Android market update sdk'
+    website = 'https://github.com/Jamling/MarketUpdateSDK'
+    bintrayUser = 'jamling'
+    bintrayKey = ''
+    dryRun = true
+}

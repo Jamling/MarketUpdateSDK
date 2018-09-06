@@ -42,16 +42,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.bd_btn_ui:
                 txtLog.setText("");
                 dialog.show();
-                BDAutoUpdateSDK.uiUpdateAction(this, new MyUICheckUpdateCallback());
+                BDAutoUpdateSDK.uiUpdateAction(this, new MyUICheckUpdateCallback(), false);
                 break;
             case R.id.bd_btn_silence:
                 txtLog.setText("");
-                BDAutoUpdateSDK.silenceUpdateAction(this);
+                BDAutoUpdateSDK.silenceUpdateAction(this, false);
                 break;
             case R.id.bd_btn_no_ui:
                 txtLog.setText("");
                 dialog.show();
-                BDAutoUpdateSDK.cpUpdateCheck(this, new MyCPCheckUpdateCallback());
+                BDAutoUpdateSDK.cpUpdateCheck(this, new MyCPCheckUpdateCallback(), false);
                 break;
             default:
                 break;

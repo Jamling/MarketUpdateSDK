@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.ieclipse.af.musdk.demo" >
+<manifest
+    package="cn.ieclipse.af.musdk.demo"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-sdk tools:overrideLibrary="com.baidu.autoupdatesdk"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- 360 -->
+        <provider
+            android:name="com.qihoo.appstore.updatelib.UpdateProvider"
+            android:authorities="${applicationID}.musdk.360.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_apk_path"/>
+        </provider>
+
+        <!-- baidu -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationID}.musdk.baidu.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/bdp_update_filepaths"/>
+        </provider>
+
+        <meta-data
+            android:name="BDAPPID"
+            android:value="${BDAPPID}"
+            tools:replace="android:value"/>
+        <meta-data
+            android:name="BDAPPKEY"
+            android:value="${BDAPPKEY}"
+            tools:replace="android:value"/>
+        <!-- end baidu-->
+
     </application>
 
 </manifest>
