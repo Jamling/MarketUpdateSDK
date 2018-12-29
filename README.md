@@ -1,15 +1,19 @@
 # MarketUpdateSDK
 百度及360等国内市场上架必须集成的SDK
 
+## 已集成的SDK
+- 360
+- 百度
+
 ## 360
 
 文档：https://github.com/Jamling/MarketUpdateSDK/raw/master/doc/360%E6%9B%B4%E6%96%B0sdk7.0.3%E6%96%87%E6%A1%A3.docx
 
 引入依赖库
 
-```
+```gradle
 dependencies {
-    compile "cn.ieclipse.af:musdk-360:7.0.3"
+    compile "cn.ieclipse.aar-ref:360update:7.0.3"
 }
 ```
 
@@ -36,12 +40,8 @@ App Manifest
 引入依赖库
 
 ```gradle
-repositories {
-    flatDir { dirs 'libs/' }
-}
-
 dependencies {
-    compile(name: "bd_autoupdate_sdk_release_1_3_1", ext: 'aar')
+    compile "cn.ieclipse.aar-ref:bd_autoupdate_sdk:1.3.1"
 }
 ```
 
@@ -72,5 +72,8 @@ App Manifest
 
 ## 注意事项
 
-上百度市场，apk中不能包含360的jar
+上传360市场，apk中不能包含百度升级sdk相关的代码
 
+上传百度市场，apk中不能包含360升级sdk相关的代码
+
+建议创建不同的代码分支来集成360和百度升级SDK

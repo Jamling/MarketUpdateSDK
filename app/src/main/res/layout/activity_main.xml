@@ -60,7 +60,7 @@
             <TextView
                 android:id="@+id/qh_btn_ui"
                 style="@style/btn"
-                android:text="自定义UI"/>
+                android:text="增量升级"/>
 
             <TextView
                 android:id="@+id/qh_btn_silence"

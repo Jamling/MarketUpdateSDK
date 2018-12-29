@@ -48,12 +48,12 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 }
 
-// ./gradlew clean musdk-360:build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
+// gradle clean musdk-360:build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
 publish {
     bintrayUser = 'jamling'
     userOrg = 'jamling'
-    groupId = 'cn.ieclipse.af'
-    artifactId = 'musdk-360'
+    groupId = 'cn.ieclipse.aar-ref'
+    artifactId = '360update'
     publishVersion = '7.0.3'
     desc = '360 Android market update sdk'
     website = 'https://github.com/Jamling/MarketUpdateSDK'

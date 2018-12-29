@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qihoo.updatesdk.demo">
+    package="com.qihoo.updatesdk">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -22,6 +22,7 @@
             android:name="com.qihoo.appstore.updatelib.CheckUpdateService"
             android:exported="false" />
 
+        <!-- provider 请在您的app模块中添加，并把${appid}换成您的应用包名 -->
         <!--<provider-->
             <!--android:name="com.qihoo.appstore.updatelib.UpdateProvider"-->
             <!--android:authorities="${appid}"-->

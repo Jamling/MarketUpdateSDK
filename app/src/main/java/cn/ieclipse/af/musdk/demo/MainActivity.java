@@ -3,6 +3,7 @@ package cn.ieclipse.af.musdk.demo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
@@ -17,6 +18,7 @@ import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
 import com.baidu.autoupdatesdk.CPCheckUpdateCallback;
 import com.baidu.autoupdatesdk.CPUpdateDownloadCallback;
 import com.baidu.autoupdatesdk.UICheckUpdateCallback;
+import com.qihoo.appstore.common.updatesdk.lib.UpdateHelper;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -31,6 +33,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.bd_btn_ui).setOnClickListener(this);
         findViewById(R.id.bd_btn_silence).setOnClickListener(this);
         findViewById(R.id.bd_btn_no_ui).setOnClickListener(this);
+
+        findViewById(R.id.qh_btn_ui).setOnClickListener(this);
+        findViewById(R.id.qh_btn_silence).setOnClickListener(this);
+        findViewById(R.id.qh_btn_no_ui).setOnClickListener(this);
+
         txtLog = (TextView) findViewById(R.id.txt_log);
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
@@ -42,16 +49,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.bd_btn_ui:
                 txtLog.setText("");
                 dialog.show();
-                BDAutoUpdateSDK.uiUpdateAction(this, new MyUICheckUpdateCallback(), false);
+                BDAutoUpdateSDK.cpUpdateCheck(this, new BDCPCheckUpdateCallback(), true);
                 break;
             case R.id.bd_btn_silence:
                 txtLog.setText("");
-                BDAutoUpdateSDK.silenceUpdateAction(this, false);
+                BDAutoUpdateSDK.silenceUpdateAction(this, true);
                 break;
             case R.id.bd_btn_no_ui:
                 txtLog.setText("");
                 dialog.show();
-                BDAutoUpdateSDK.cpUpdateCheck(this, new MyCPCheckUpdateCallback(), false);
+                BDAutoUpdateSDK.uiUpdateAction(this, new BDUICheckUpdateCallback(), true);
+                break;
+            case R.id.qh_btn_ui:
+                txtLog.setText("");
+                qh360(0);
+                break;
+            case R.id.qh_btn_silence:
+                txtLog.setText("");
+                qh360(1);
+                break;
+            case R.id.qh_btn_no_ui:
+                txtLog.setText("");
+                qh360(2);
                 break;
             default:
                 break;
@@ -64,11 +83,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
     }
 
-    private class MyUICheckUpdateCallback implements UICheckUpdateCallback {
+    private void showToast(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg).create().show();
+    }
+
+    private class BDUICheckUpdateCallback implements UICheckUpdateCallback {
 
         @Override
         public void onNoUpdateFound() {
-
+            dialog.dismiss();
+            txtLog.setText("未发现新版本，您在百度市场上的应用已是最新");
         }
 
         @Override
@@ -77,7 +102,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private class MyCPCheckUpdateCallback implements CPCheckUpdateCallback {
+    private class BDCPCheckUpdateCallback implements CPCheckUpdateCallback {
 
         @Override
         public void onCheckUpdateCallback(final AppUpdateInfo info, AppUpdateInfoForInstall infoForInstall) {
@@ -160,6 +185,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
         @Override
         public void onStop() {
             txtLog.setText(txtLog.getText() + "\n Download onStop");
+        }
+    }
+
+    // 360
+    private void qh360(int type) {
+        Context context = this;
+        UpdateHelper.getInstance().init(context, context.getResources().getColor(R.color.colorPrimary));
+        UpdateHelper.getInstance().setDebugMode(true);
+        if (type == 0) {
+            txtLog.setText("此功能未添加，若想添加，请将../doc/libarmeabi.so复制到您的app jniLib（libs/armeabi）目录下");
+        }
+        else if (type == 1) {
+            long intervalMillis = 10 * 1000L;           //第一次调用startUpdateSilent出现弹窗后，如果10秒内进行第二次调用不会查询更新
+            UpdateHelper.getInstance().autoUpdate(context.getPackageName(), false, intervalMillis);
+        }
+        else {
+            UpdateHelper.getInstance().manualUpdate(context.getPackageName());
         }
     }
 }
